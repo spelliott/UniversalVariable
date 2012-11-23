@@ -13,6 +13,34 @@ Example:
 window.universal_variable = {};
 ```
 
+
+## Version
+
+Set this to the string "1.1.0" to indicate that this version of the specification is being used.
+
+```javascript
+window.universal_variable.version = "1.1.0";
+```
+
+
+## Implementation Considerations
+
+This universal_variable JavaScript object must be created before any browser scripts that try to access it.  It is *imperative to use this structure*, as this ensures that the values are present on the page when a script tries to access them.  If the variables are created further down the page, they will not be picked up.  
+
+## A word on privacy
+
+This standard includes methods to represent personal data, such as users' names and addresses. Like many other parts of the standard, inclusion of this information is optional.
+
+Before you implement universal variable, decide which personal information you wish to include. Then, ensure you only include personal information where necessary, for example:
+
+* a User object (including the user's name) could be populated in pages served to a signed-in user
+* a Transaction object (including a postal address) could be populated in a confirmation or receipt page, served to a customer on completion of a retail transaction.
+
+### Why include personal data in universal variable?
+
+The intention of this standard is to reproduce information that may already be displayed on-screen in a more machine-readable format, not to disclose personal information to anyone who shouldn't see it. Remember that any data in universal variable will only be accessible by scripts loaded on that particular page, and the use of personal data falls under your applicable data protection laws as normal.
+
+
 ## The universal_variable object
 
 universal_variable can contain any of the following properties:
@@ -53,21 +81,7 @@ window.universal_variable = {
 }
 ```
 
-## Implementation Considerations
-
-This universal_variable JavaScript object must be created before any browser scripts that try to access it.  
-
-
-
-
-
-## Version
-
-Set this to the string "1.1.0" to indicate that this version of the specification is being used.
-
-```javascript
-window.universal_variable.version = "1.1.0";
-```
+## Universal Variable Object Definitions
 
 ## Page
 
@@ -76,8 +90,8 @@ The Page object describes the current page.
 Properties (all optional):
 
 <table><tr><th>Property</th><th>JavaScript Key</th><th>Type</th><th>Description</th></tr>
-<tr><td>Page Category</td><td>category</td><td>String</td><td>A short description of the type of page, e.g. 'home', 'product', 'category', 'search', 'basket', 'checkout', 'confirmation'.</td></tr>
-<tr><td>Page Subcategory</td><td>subcategory</td><td>String</td><td>A short description of the type of page, with more granularity than the category, e.g. 'landing', 'checkout-stage1', 'gifts'.  <br>Use only if a category has been defined.</td></tr>
+<tr><td>Page Category</td><td>category</td><td>String</td><td>A short description of the type of page, e.g. 'home', 'product', 'category', 'search', 'basket', 'checkout', 'confirmation'.  The page's position in the site hierarchy should not be used in this field, however it could be used as the subcategory.</td></tr>
+<tr><td>Page Subcategory</td><td>subcategory</td><td>String</td><td>A short description of the instance of this type of page, e.g. 'landing', 'checkout-stage1'.  Site hierarchies can be used, e.g. 'Womens - Shoes - Running Shoes'.<br>Use only if a category has been defined.</td></tr>
 <tr><td>System Environment</td><td>environment</td><td>String</td><td>A name for the environment which is creating this Universal Variable data, e.g. 'development', 'testing', 'production'.</td></tr>
 <tr><td>Page Variation</td><td>variation</td><td>String</td><td>If serving multiple versions of this page during testing, specify a variation name. e.g. 'original','newstyle'</td></tr>
 <tr><td>Page Revision</td><td>revision</td><td>String</td><td>If a site's pages implement versioning, state a revision here, e.g. '1.1'.</td></tr>
@@ -88,8 +102,8 @@ For example:
 ``` javascript
 window.universal_variable = {
 	page: {
-		category: "product",
-		subcategory: "Mens Shirts",
+		category: "product",                     // the page is of type Product
+		subcategory: "Mens - Shirts - Formal",   // specifically, the Product page for mens formal shirts
 		environment: "production",
 		variation: "Original",
 		revision: "1.1"
@@ -322,7 +336,7 @@ Properties:
 <table><tr><th>Property</th><th>JavaScript Key</th><th>Type</th><th>Description</th></tr>
 <tr><td>Transaction ID</td><td>order_id</td><td>String</td><td>A unique ID for this transaction.</td></tr>
 <tr><td>Transaction Currency</td><td>currency</td><td>String</td><td><i>Mandatory.  </i>The <a href="http://en.wikipedia.org/wiki/ISO_4217">ISO 4217</a> code for the currency this transaction's costs are denominated in.</td></tr>
-<tr><td>Transaction Payment Type</td><td>payment_type<td></td><td>String</td><td>Payment method, e.g. 'Visa','PayPal','Voucher'.</td></tr>
+<tr><td>Transaction Payment Type</td><td>payment_type</td><td>String</td><td>Payment method, e.g. 'Visa','PayPal','Voucher'.</td></tr>
 <tr><td>Transaction Price</td><td>subtotal</td><td>Number</td><td>The transaction amount, excluding shipping or discounts.</td></tr>
 <tr><td>Transaction Includes Tax</td><td>subtotal_include_tax</td><td>Boolean</td><td>Indicates whether Transaction Price includes tax.</td></tr>
 <tr><td>Transaction Voucher Code</td><td>voucher</td><td>String</td><td>Voucher code entered.</td></tr>
