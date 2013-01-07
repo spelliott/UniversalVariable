@@ -192,7 +192,7 @@ There are many possible types of product on the Web - here, we first list proper
 <tr><td>Product Currency</td><td>currency</td><td>String</td><td>The <a href="http://en.wikipedia.org/wiki/ISO_4217">ISO 4217</a> code for the currency used for this product's prices.</td></tr>
 <tr><td>Product Price</td><td>unit_sale_price</td><td>Number</td><td>The price for a single unit of this product actually paid by a customer, taking into account any sales and promotions. <b>Note:</b> If a promotion involves selling the same product with different prices in the same transaction (e.g. ten units of a product are in a basket, where the first two receive a 10% discount, and the rest are discounted by 20%), implement the 'least discounted' version of the product using this Product object, and implement the further discount by using the `total_discount` property of the <a href="#lineitem">LineItem</a> object, which forms part of <a href="#basket">Baskets</a> and <a href="#transaction">Transactions</a>.<i>Requires Product Currency to be declared.</i></td></tr>
 <tr><td>Product Price Excluding Promotions</td><td>unit_price</td><td>Number</td><td>The price of a single unit of this product, not taking into account discounts and promotions.  <i>Requires Product Currency and Product Price to be declared.</i></td></tr>
-
+<tr><td>Product Reviews</td><td>reviews</td><td>Array of <a href="#review">Review</a> objects</td><td>Reviews that have been written (by customers or staff) about this Product.</td></tr>
 </table>
 
 ### Additional properties for products requiring stock keeping
@@ -223,14 +223,6 @@ As before, if some properties are not known at the current stage in a user's jou
 <table><tr><th>Property</th><th>JSON key</th><th>Type</th><th>Description</th></tr>
 <tr><td>Journeys</td><td>journeys</td><td>Array of <a href="#journey">Journey</a> objects</td><td>Descriptions of the flights, trains, or other journeys included in this product.</td></tr>
 <tr><td>Accommodations</td><td>accommodations</td><td>Array of <a href="#accommodation">Accommodation</a> objects</td><td>Descriptions of the accommodation stays included in this product.</td></tr>
-</table>
-
-### Additional properties for products that are reviewed
-
-As before, if some properties are not known at the current stage in a user's journey, such as checkin and checkout dates, simply do not declare them.
-
-<table><tr><th>Property</th><th>JSON key</th><th>Type</th><th>Description</th></tr>
-<tr><td>Product Reviews</td><td>reviews</td><td>Array of <a href="#review">Review</a> objects</td><td>Reviews that have been written (by customers or staff) about this Product.</td></tr>
 </table>
 
 See the following example of a populated Product object:
@@ -278,7 +270,8 @@ Example:
 	"product": {
 			"url": "http://www.example.com/product?=ABC123", 
 			"name": "ABC Trainers",
-			"unit_price": 30.00
+			"unit_price": 30.00,
+			"unit_sale_price": 25.00,
 			"currency": "GBP"
 		},
 	"quantity": 1,
@@ -577,7 +570,7 @@ window.universal_variable = {
 
 ## Review
 
- The Review object models a review of a Product.
+ The Review object models a review of a [Product](#product).
 
 Properties:
 
@@ -593,10 +586,10 @@ Example:
 	"product": {
 			"url": "http://www.example.com/product?=ABC123", 
 			"name": "ABC Trainers",
-			"unit_price": 30.00
+			"unit_sale_price": 25.00
 			"currency": "GBP",
 			"reviews": [ {"body": "These are excellent trainers!", "rating": "5"},
-						 {"body": "Pretty good", "rating": 4} ]
+						 {"body": "Pretty good", "rating": "4"} ]
 		},
 	"quantity": 1,
 	"subtotal": 30.00,
